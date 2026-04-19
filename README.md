@@ -1,2 +1,1 @@
-# echo-loop
-Cyberpunk clone puzzle game with story mode, sound, and boss level.
+Created and designed by Sama.
