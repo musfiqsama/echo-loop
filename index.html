@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Echo Loop: Made by Sama</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-orb orb-a"></div>
+  <div class="bg-orb orb-b"></div>
+
+  <div id="startScreen" class="screen-overlay">
+    <div class="screen-card glass intro-card">
+      <div class="eyebrow">STORY MODE // CHRONO HEIST</div>
+      <h1>ECHO LOOP</h1>
+      <p class="hero-line">Break into a collapsing neon vault by weaponizing your own past timelines.</p>
+
+      <div class="intro-grid">
+        <section>
+          <h2>What kind of game is this?</h2>
+          <p>
+            It is a <b>clone-puzzle strategy game</b>. Every time you create a loop, your last movement path becomes a glowing echo.
+            Those clones can hold switches, sync pressure pads, and help you open the gate.
+          </p>
+        </section>
+        <section>
+          <h2>How to play</h2>
+          <ul>
+            <li><b>Move:</b> W A S D or Arrow Keys</li>
+            <li><b>Create Loop:</b> Space or Enter</li>
+            <li><b>Reset Room:</b> R</li>
+            <li><b>Hint:</b> H</li>
+          </ul>
+        </section>
+      </div>
+
+      <div class="intro-story glass-soft">
+        <div class="story-tag">Mission Brief</div>
+        <p>
+          You are infiltrating the Omega Vault — a living security system that rewinds reality.
+          To beat it, you must use your past selves against it. The final chamber is the <b>Boss Level</b>:
+          a timed lockdown full of hazards, triple-switch sync, and one last gate between you and freedom.
+        </p>
+      </div>
+
+      <div class="intro-actions">
+        <button id="btnStartGame" class="action-btn primary big">Enter the System</button>
+        <button id="btnStartMuted" class="action-btn big">Start Muted</button>
+      </div>
+      <div class="made-line">Made by Sama</div>
+    </div>
+  </div>
+
+  <div class="app-shell">
+    <header class="topbar glass">
+      <div>
+        <div class="eyebrow">NEON CHRONO VAULT</div>
+        <h1 class="title-main">ECHO LOOP</h1>
+        <p class="subtitle">A cyber clone-puzzle heist with story mode, sound, and a final boss room</p>
+      </div>
+      <div class="topbar-right">
+        <div class="pill strong">Level <span id="levelNum">1</span>/<span id="levelCount">1</span></div>
+        <div class="pill">Loops <span id="loopCount">0</span></div>
+        <div class="pill">Moves <span id="moveCount">0</span></div>
+        <div class="pill warn">Timer <span id="timerText">--</span></div>
+        <button id="btnSound" class="action-btn compact">🔊 Sound On</button>
+      </div>
+    </header>
+
+    <main class="main-layout">
+      <section class="game-panel glass">
+        <div class="hud">
+          <div class="hud-left">
+            <div class="mini-card chapter-card">
+              <span class="label">Chapter</span>
+              <span id="chapterText">Boot Sequence</span>
+            </div>
+            <div class="mini-card objective-card">
+              <span class="label">Objective</span>
+              <span id="objective">Stand on the exit gate.</span>
+            </div>
+          </div>
+          <div class="hud-right">
+            <button id="btnLoop" class="action-btn primary">Create Loop</button>
+            <button id="btnReset" class="action-btn">Reset Room</button>
+            <button id="btnPrev" class="action-btn compact">Prev</button>
+            <button id="btnNext" class="action-btn compact">Next</button>
+          </div>
+        </div>
+
+        <div class="canvas-wrap">
+          <canvas id="gameCanvas" width="960" height="640" aria-label="Echo Loop Game"></canvas>
+          <div id="flashMessage" class="flash hidden"></div>
+          <div class="scanline"></div>
+        </div>
+      </section>
+
+      <aside class="side-panel glass">
+        <div class="panel-block story-block">
+          <div class="panel-head">
+            <h2>Story Mode</h2>
+            <span class="panel-chip">Live Brief</span>
+          </div>
+          <p id="storyText">You have entered the first chamber. Learn the loop mechanic and wake the system.</p>
+        </div>
+
+        <div class="panel-block">
+          <div class="panel-head">
+            <h2>How to play</h2>
+            <span class="panel-chip">Rules</span>
+          </div>
+          <p><b>Goal:</b> Open the gate and escape each chamber.</p>
+          <p><b>Core mechanic:</b> Your last path becomes a clone when you create a loop.</p>
+          <p><b>Winning:</b> Use clones to activate every switch together, avoid hazards, then step onto the gate.</p>
+        </div>
+
+        <div class="panel-block">
+          <div class="panel-head">
+            <h2>Controls</h2>
+            <span class="panel-chip">Input</span>
+          </div>
+          <p><b>Move:</b> W A S D or Arrow Keys</p>
+          <p><b>Create clone:</b> Space or Enter</p>
+          <p><b>Reset:</b> R</p>
+          <p><b>Hint:</b> H</p>
+        </div>
+
+        <div class="panel-block accent-block">
+          <div class="panel-head">
+            <h2>Hint</h2>
+            <span class="panel-chip">Assist</span>
+          </div>
+          <p id="hintText">Create your first loop near useful tiles.</p>
+        </div>
+
+        <div class="panel-block boss-block">
+          <div class="panel-head">
+            <h2>Boss Room</h2>
+            <span class="panel-chip danger">Final</span>
+          </div>
+          <p>Final chamber = triple switch sync + hazard grid + countdown lockdown.</p>
+          <p>To win, you will likely need <b>multiple clones</b> and a clean final route.</p>
+        </div>
+
+        <div class="panel-block madeby">
+          <div class="signature">Made by Sama</div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="footer glass">
+      <div class="legend">
+        <span><i class="dot player"></i>You</span>
+        <span><i class="dot clone"></i>Clone</span>
+        <span><i class="dot switch"></i>Switch</span>
+        <span><i class="dot gate"></i>Gate</span>
+        <span><i class="dot wall"></i>Wall</span>
+        <span><i class="dot hazard"></i>Hazard</span>
+      </div>
+      <div class="credit">Responsive polished build • Story + Boss + Sound • Made by Sama</div>
+    </footer>
+  </div>
+
+  <div id="winModal" class="modal hidden">
+    <div class="modal-card glass">
+      <div class="eyebrow">OMEGA VAULT BREACHED</div>
+      <h2>Mission Complete</h2>
+      <p>You defeated the final lockdown and escaped with your timeline intact.</p>
+      <div class="modal-stats">
+        <div class="mini-card"><span class="label">Rooms Cleared</span><span>5</span></div>
+        <div class="mini-card"><span class="label">Status</span><span>Legend</span></div>
+      </div>
+      <button id="btnRestartAll" class="action-btn primary">Play Again</button>
+      <div class="modal-credit">Made by Sama</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
